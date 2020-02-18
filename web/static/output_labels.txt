@@ -1,0 +1,27 @@
+bear
+butterfly
+california bighorn sheep
+cat
+cow
+deer
+dog
+elephant
+fox
+gorilla
+horse
+jaguar
+lion
+monkey
+orangutan
+pangolin
+panther
+rhinoceros
+saola
+sheep
+spider
+squirrel
+tiger
+wolf
+zebra
+hen
+leopard
