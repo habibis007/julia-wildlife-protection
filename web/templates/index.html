@@ -1,0 +1,41 @@
+{% extends "base.html" %} {% block content %}
+
+<div>
+  <h2>Wildlife Environment Surveillance Camera</h2>
+  <p>Effectively monitor Wildlife reserve areas and detect objects present in the environment to effectively alert proper authorities if unwanted objects are detected.</p>
+    <form id="uploadForm" enctype="multipart/form-data">
+      <label for="file">Upload video file</label>
+        <input type="file" id="file" name="file">
+        <input type="button" value="submit" id="submit" class="submit" onclick="uploadFile()">
+        <br/><input type="checkbox" id="compress" name="compress" checked>video format (Compressed)
+        </form>
+</div>
+<div><p>Note: Video processing takes a bit of time. Please sit tight after clicking submit button</p></div>
+<div>
+  <h2>Animal Trap Camera</h2>
+  <form id="uploadImage" enctype="multipart/form-data">
+    <input type="file" id="animal" name="animal">
+    <input type="button" value="submit" id="animalBtn" class="submit" onclick="uploadImage()">
+    </form>
+    <p>Available Animal Classes: [Bear, Butterfly, California bighorn sheep, Cat, Cow, Deer, Dog, Elephant, Fox, Gorilla, Hen, Horse, Jaguar, Leopard, Lion, Monkey, Orangutan, Pangolin, Panther, Rhinoceros, Saola, Sheep, Spider, Squirrel, Tiger, Wolf, Zebra]
+      <br/> Can't find desired animal, no worries, we keep adding more animals.
+    </p>
+    <p name="class" id="class" style="color: red;">  
+    </p>
+</div>
+<div class="popup" id="loadDiv" style="display:none"><img id = "myImage" src = "{{url_for('static', filename='images/Ajaxloader.gif') }}"></div>
+<div class="show">
+    <div class="overlay"></div>
+    <div class="img-show">
+      <span>X</span>
+      <img src="">
+    </div>
+  </div>
+<!-- <div>
+    <video id="video" src="{{ url_for('static', filename='outputs/2020-01-28T11:57:09.795006.avi') }}" controls preload="auto" />
+    </div> -->
+
+    <iframe id="my_iframe" style="display:none;"></iframe>
+
+
+{% endblock %}
