@@ -46,6 +46,29 @@ function uploadFile(){
 
 }
 
+function uploadFire(){
+    let file = document.querySelector("#fire");
+    let formData = new FormData();
+    formData.append("file", file.files[0]);
+    showLoading(30000)
+    axios.post('/fire', formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    }).then((response) => {
+        console.log(response.data.destination);
+            
+            let downloadFile = `static/outputs/${response.data.destination}`
+            console.log(downloadFile)
+            Download(downloadFile);
+            hide();
+
+    }).catch((error)=>{
+        console.log(error);
+    })
+
+}
+
 function uploadImage(){
     let file = document.querySelector('#animal');
     let formData = new FormData();
