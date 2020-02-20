@@ -25,10 +25,16 @@ from pathlib import Path
 import random 
 import string
 
+from imageai.Detection.Custom import CustomObjectDetection, CustomVideoObjectDetection
+
+execution_path = os.getcwd() 
+save_path = os.getcwd() + "/static/outputs"
+
 net = None
 animalNet = None
 graph = None
 animalGraph = model.load_graph('static/output_graph.pb')
+fireNet = None
 sess = None
 # initialize flask application and the keras model
 app = flask.Flask(__name__)
@@ -320,6 +326,17 @@ def processVideoUncompress(filepath):
     response = True
     return response, dest
 
+
+def detect_from_video(file):
+    fireNet = CustomVideoObjectDetection()
+    fireNet.setModelTypeAsYOLOv3()
+    fireNet.setModelPath(detection_model_path=os.path.join(execution_path, "static/fire/detection_model-ex-33--loss-4.97.h5"))
+    fireNet.setJsonPath(configuration_json=os.path.join(execution_path, "static/fire/detection_config.json"))
+    fireNet.loadModel()
+    detected_video_path = fireNet.detectObjectsFromVideo(input_file_path=os.path.join(execution_path, file), frames_per_second=30, output_file_path=os.path.join(save_path, "video1-detected"), minimum_percentage_probability=40, log_progress=True )
+    return detected_video_path
+
+
 @app.route('/', methods=['GET'])
 def index():
     # Main page
@@ -401,6 +418,41 @@ def predictUncompress():
             response.status_code = 400
             return response
 
+#POST upload video - fire
+@app.route('/fire', methods=['GET','POST'])
+def predictFire():
+    if request.method == 'POST':
+        # check if request has file
+        if 'file' not in request.files:
+            response = jsonify({'message': 'No file provided'})
+            response.status_code = 400
+            return response
+
+        # Get the file from post request
+        f = request.files['file']
+        if f.filename == '':
+            response = jsonify({'message': 'No file selected for upload'})
+            response.status_code = 400
+            return response
+
+        if f and allowed_file(f.filename):
+            # Save file to ./uploads folder
+            basepath = os.path.dirname(__file__)
+            file_path = os.path.join(basepath, 'uploads', secure_filename(f.filename))
+            f.save(file_path)
+            #process the video file and generate object detection output
+            dest = detect_from_video(file_path)
+            head, tail = os.path.split(dest)
+            print(tail)
+            if(tail):
+                response = jsonify({'message': 'successful', 'destination': tail})
+                response.status_code = 200
+                return response
+        else:
+            response = jsonify({'message': 'Something went wrong'})
+            response.status_code = 400
+            return response
+
 
 #POST Animal image
 @app.route("/animal",methods=['GET','POST'])
@@ -447,8 +499,11 @@ if __name__ == "__main__":
     print(("* Loading Animal classification model..."
     "please wait until server has fully started"))
     loadAnimalModel()
+    print(("* Loading Fire detction model..."
+    "please wait until server has fully started"))
+    # loadFireModel()
     print("Application started successfully!")
-    app.run(host='0.0.0.0', port=5001)
+    app.run(host='0.0.0.0', port=5001, debug=True)
 
 
 

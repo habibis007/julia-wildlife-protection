@@ -23,6 +23,14 @@
     <p name="class" id="class" style="color: red;">  
     </p>
 </div>
+<div>
+  <h2>Fire Detection</h2>
+  <form id="uploadFire" enctype="multipart/form-data">
+    <input type="file" id="fire" name="fire">
+    <input type="button" value="submit" id="fireBtn" class="fireClass" onclick="uploadFire()">
+  </form>
+</div>
+<div><p>Note: Processing takes a bit of time. Sit tight after clicking submit button</p></div>
 <div class="popup" id="loadDiv" style="display:none"><img id = "myImage" src = "{{url_for('static', filename='images/Ajaxloader.gif') }}"></div>
 <div class="show">
     <div class="overlay"></div>
