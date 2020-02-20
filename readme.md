@@ -19,9 +19,15 @@ In this case, the picture captured by the camera is processed by some on-site co
  Classification method - label_image.py gives detailed explanation on how the classification works.
 
 ### Object Detection Model
-The survelliance camera runs on this model. It detects objects in video stream and downloads the same video but with detected object.
+The surveillance camera runs on this model. It detects objects in video stream and downloads the same video but with detected object.
 The model can detects about 1000 classes of objects based on ImageNet dataset.
-Deep Learning Architecture - YOLOv3. The object detector steps can be found here: [YOLO Object Detection with OpenCV](https://www.pyimagesearch.com/2018/11/12/yolo-object-detection-with-opencv/)
+- Deep Learning Architecture - YOLOv3. The object detector steps can be found here: [YOLO Object Detection with OpenCV](https://www.pyimagesearch.com/2018/11/12/yolo-object-detection-with-opencv/)
 Dataset - ImageNet 1000 objects
-Video Processing - OpenCV is used to read video file and process frame by frame. Python-ffmpeg is used to write the processed frames to file and save to the computer.
+- Video Processing - OpenCV is used to read video file and process frame by frame. Python-ffmpeg is used to write the processed frames to file and save to the computer.
+
+### Fire Detection Model
+The surveillance camera also runs this model. It detects fire scenes in video stream and actively track the fire.
+- Deep Learning Architecture - YOLOv3.
+- Deep Learning Library - [ImageAI](https://github.com/OlafenwaMoses/ImageAI). A python library built to empower developers to build applications and systems with self-contained Computer Vision capabilities
+- Fire Model - [FireNet](https://github.com/OlafenwaMoses/FireNET)
 
